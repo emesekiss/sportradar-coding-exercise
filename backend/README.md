@@ -15,7 +15,7 @@ The backend for this challenge was set up with PostgreSQL and by creating API se
 
 ## Screenshot
 
-![Screenshot](./public/dbschema.png)
+![Screenshot](dbschema.png)
 
 ### Run the backend
 
