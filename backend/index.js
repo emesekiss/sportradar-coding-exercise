@@ -1,6 +1,12 @@
 import express from 'express';
 import cors from 'cors';
-import { getEvents, deleteEvent, addEvent, filterEvents } from './database.js';
+import {
+  getEvents,
+  deleteEvent,
+  addEvent,
+  filterEvents,
+  getSports,
+} from './database.js';
 
 const app = express();
 const port = 3001;
@@ -19,6 +25,16 @@ app.use(function (req, res, next) {
 
 app.get('/', (req, res) => {
   getEvents()
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get('/sports', (req, res) => {
+  getSports()
     .then((response) => {
       res.status(200).send(response);
     })

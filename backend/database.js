@@ -7,18 +7,27 @@ const sql = postgres();
 
 export async function getEvents() {
   const events = await sql`
-    SELECT id, datetime, sport, details FROM events ORDER BY datetime;
+    SELECT * FROM events, sports
+    WHERE sports.id = events.sport_id;
   `;
   console.log(events);
   return events.map((u) => camelcaseKeys(u));
 }
 
+export async function getSports() {
+  const sports = await sql`
+  SELECT * FROM sports
+`;
+
+  return sports.map((u) => camelcaseKeys(u));
+}
+
 export async function addEvent(data) {
   const events = await sql`
     INSERT INTO events
-      (datetime, sport, details)
+      (datetime, sport_id, details)
     VALUES
-      (${data.datetime},${data.sport}, ${data.details})
+      (${data.datetime},${data.sport_id}, ${data.details})
     RETURNING *;
   `;
 
@@ -38,7 +47,9 @@ export async function deleteEvent(id) {
 export async function filterEvents(filter) {
   const filteredEvents = await sql`
   SELECT *
-FROM events
-WHERE sport =${filter}`;
+FROM events, sports
+WHERE events.sport_id = sports.id 
+AND 
+sports.id =${filter}`;
   return filteredEvents.map((u) => camelcaseKeys(u));
 }
