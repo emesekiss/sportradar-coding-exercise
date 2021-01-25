@@ -10,7 +10,7 @@ export async function getEvents() {
     SELECT * FROM events, sports
     WHERE sports.id = events.sport_id;
   `;
-  console.log(events);
+
   return events.map((u) => camelcaseKeys(u));
 }
 
@@ -37,8 +37,7 @@ export async function addEvent(data) {
 export async function deleteEvent(id) {
   const deletedEvent = await sql`
     DELETE FROM events
-      WHERE id = ${id}
-      ;
+    WHERE id = ${id};
   `;
 
   return deletedEvent.map((u) => camelcaseKeys(u));
@@ -46,10 +45,9 @@ export async function deleteEvent(id) {
 
 export async function filterEvents(filter) {
   const filteredEvents = await sql`
-  SELECT *
-FROM events, sports
-WHERE events.sport_id = sports.id 
-AND 
-sports.id =${filter}`;
+  SELECT * FROM events, sports
+  WHERE events.sport_id = sports.id 
+  AND sports.id =${filter}`;
+
   return filteredEvents.map((u) => camelcaseKeys(u));
 }

@@ -23,56 +23,51 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/', (req, res) => {
-  getEvents()
-    .then((response) => {
-      res.status(200).send(response);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+app.get('/', async (req, res) => {
+  try {
+    const response = await getEvents();
+    res.status(200).send(response);
+  } catch {
+    res.status(500).send(error);
+  }
 });
 
-app.get('/sports', (req, res) => {
-  getSports()
-    .then((response) => {
-      res.status(200).send(response);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+app.get('/sports', async (req, res) => {
+  try {
+    const response = await getSports();
+    res.status(200).send(response);
+  } catch {
+    res.status(500).send(error);
+  }
 });
 
-app.get('/:filter', (req, res) => {
-  filterEvents(req.params.filter)
-    .then((response) => {
-      res.status(200).send(response);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+app.get('/:filter', async (req, res) => {
+  try {
+    const response = await filterEvents(req.params.filter);
+    res.status(200).send(response);
+  } catch {
+    res.status(500).send(error);
+  }
 });
 
 app.options('/events', cors());
-app.post('/events', cors(), (req, res) => {
-  addEvent(req.body)
-    .then((response) => {
-      res.status(200).send(response);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+app.post('/events', cors(), async (req, res) => {
+  try {
+    const response = await addEvent(req.body);
+    res.status(200).send(response);
+  } catch {
+    res.status(500).send(error);
+  }
 });
 
 app.options('/events/:id', cors());
-app.delete('/events/:id', cors(), (req, res) => {
-  deleteEvent(req.params.id)
-    .then((response) => {
-      res.status(200).send(response);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+app.delete('/events/:id', cors(), async (req, res) => {
+  try {
+    const response = await deleteEvent(req.params.id);
+    res.status(200).send(response);
+  } catch {
+    res.status(500).send(error);
+  }
 });
 
 app.listen(port, () => {
