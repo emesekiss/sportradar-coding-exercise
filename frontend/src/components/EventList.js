@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 
 function EventList({ sports }) {
   const [events, setEvents] = useState([]);
-
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
@@ -24,6 +23,25 @@ function EventList({ sports }) {
     }
   }, [filter]);
 
+  const handleDelete = async (item) => {
+    const answer = window.confirm(
+      `Do you really want to delete the event: ${item.name} on ${format(
+        new Date(item.datetime),
+        'eee., dd.MM.yyyy, HH:mm,',
+      )} from your list?`,
+    );
+
+    if (answer === true) {
+      console.log(item);
+      await fetch(`http://localhost:3001/events/${item.id}`, {
+        method: 'DELETE',
+      });
+
+      // This is just a fast way of refreshing the information
+      window.location.reload();
+    }
+  };
+
   return (
     <div>
       <h3>All Events</h3>
@@ -34,38 +52,22 @@ function EventList({ sports }) {
         onChange={(e) => setFilter(e.currentTarget.value)}
       >
         <option value="">All</option>
-        {sports.map((item) => (
-          <option value={item.id}>{item.name}</option>
+        {sports.map((sport) => (
+          <option key={`sport-filter-${sport.id}`} value={sport.id}>
+            {sport.name}
+          </option>
         ))}
       </select>
 
       <ol>
-        {events.map((item) => (
-          <li key={item.id}>
+        {events.map((event) => (
+          <li key={`event-${event.id}`}>
             <div>
               <p>{`${format(
-                new Date(item.datetime),
+                new Date(event.datetime),
                 'eee., dd.MM.yyyy, HH:mm,',
-              )} ${item.name}, ${item.details} `}</p>
-
-              <button
-                onClick={async () => {
-                  const answer = window.confirm(
-                    `Do you really want to delete this item from your list?`,
-                  );
-
-                  if (answer === true) {
-                    await fetch(`http://localhost:3001/events/${item.id}`, {
-                      method: 'DELETE',
-                    });
-                    window.location.reload();
-
-                    // This is just a fast way of refreshing the information
-                  }
-                }}
-              >
-                Delete
-              </button>
+              )} ${event.name}, ${event.details} `}</p>
+              <button onClick={() => handleDelete(event)}>Delete</button>
             </div>
           </li>
         ))}

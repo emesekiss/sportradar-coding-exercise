@@ -37,7 +37,7 @@ export default function EventForm({ sports }) {
           onChange={(e) => setDateTime(e.currentTarget.value)}
           required
         />
-        <label for="sport-select">Choose a sport:</label>
+        <label htmlFor="sport-select">Choose a sport:</label>
 
         <select
           name="sport"
@@ -47,7 +47,9 @@ export default function EventForm({ sports }) {
         >
           <option value="">--Please choose an option--</option>
           {sports.map((item) => (
-            <option value={item.id}>{item.name}</option>
+            <option key={`sport-${item.id}`} value={item.id}>
+              {item.name}
+            </option>
           ))}
         </select>
 

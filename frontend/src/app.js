@@ -13,6 +13,7 @@ function App() {
     }
     getSports();
   }, []);
+
   return (
     <div>
       <h1>Sportradar Challenge - Calendar</h1>
