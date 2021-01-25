@@ -3,8 +3,18 @@ import { format } from 'date-fns';
 
 function EventList() {
   const [events, setEvents] = useState([]);
+  const [sports, setSports] = useState([]);
 
   const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    async function getSports() {
+      const response = await fetch(`http://localhost:3001/sports`);
+      const allSportsData = await response.json();
+      setSports(allSportsData);
+    }
+    getSports();
+  }, []);
 
   useEffect(() => {
     if (filter) {
@@ -34,12 +44,9 @@ function EventList() {
         onChange={(e) => setFilter(e.currentTarget.value)}
       >
         <option value="">All</option>
-        <option value="Ice Hockey">Ice Hockey</option>
-        <option value="Basketball">Basketball</option>
-        <option value="Handball">Handball</option>
-        <option value="Volleyball">Volleyball</option>
-        <option value="Football">Football</option>
-        <option value="Badminton">Badminton</option>
+        {sports.map((item) => (
+          <option value={item.id}>{item.name}</option>
+        ))}
       </select>
 
       <ol>
@@ -49,7 +56,8 @@ function EventList() {
               <p>{`${format(
                 new Date(item.datetime),
                 'eee., dd.MM.yyyy, HH:mm,',
-              )} ${item.sport}, ${item.details} `}</p>
+              )} ${item.name}, ${item.details} `}</p>
+
               <button
                 onClick={async () => {
                   const answer = window.confirm(
