@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function EventForm() {
+export default function EventForm({ sports }) {
   const [dateTime, setDateTime] = useState('');
   const [sport, setSport] = useState('');
   const [details, setDetails] = useState('');
@@ -17,7 +17,7 @@ export default function EventForm() {
           },
           body: JSON.stringify({
             datetime: dateTime,
-            sport: sport,
+            sport_id: sport,
             details: details,
           }),
         });
@@ -46,12 +46,9 @@ export default function EventForm() {
           required
         >
           <option value="">--Please choose an option--</option>
-          <option value="Ice Hockey">Ice Hockey</option>
-          <option value="Basketball">Basketball</option>
-          <option value="Handball">Handball</option>
-          <option value="Volleyball">Volleyball</option>
-          <option value="Football">Football</option>
-          <option value="Badminton">Badminton</option>
+          {sports.map((item) => (
+            <option value={item.id}>{item.name}</option>
+          ))}
         </select>
 
         <input

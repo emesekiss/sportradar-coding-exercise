@@ -1,20 +1,10 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 
-function EventList() {
+function EventList({ sports }) {
   const [events, setEvents] = useState([]);
-  const [sports, setSports] = useState([]);
 
   const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    async function getSports() {
-      const response = await fetch(`http://localhost:3001/sports`);
-      const allSportsData = await response.json();
-      setSports(allSportsData);
-    }
-    getSports();
-  }, []);
 
   useEffect(() => {
     if (filter) {
