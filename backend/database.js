@@ -7,8 +7,8 @@ const sql = postgres();
 
 export async function getEvents() {
   const events = await sql`
-    SELECT * FROM events, sports
-    WHERE sports.id = events.sport_id;
+    SELECT events.id, events.datetime, events.details, sports.name, events.sport_id FROM events, sports
+    WHERE sports.id = events.sport_id ORDER BY datetime;
   `;
 
   return events.map((u) => camelcaseKeys(u));

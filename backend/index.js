@@ -27,7 +27,7 @@ app.get('/', async (req, res) => {
   try {
     const response = await getEvents();
     res.status(200).send(response);
-  } catch {
+  } catch (error) {
     res.status(500).send(error);
   }
 });
@@ -36,7 +36,7 @@ app.get('/sports', async (req, res) => {
   try {
     const response = await getSports();
     res.status(200).send(response);
-  } catch {
+  } catch (error) {
     res.status(500).send(error);
   }
 });
@@ -45,7 +45,7 @@ app.get('/:filter', async (req, res) => {
   try {
     const response = await filterEvents(req.params.filter);
     res.status(200).send(response);
-  } catch {
+  } catch (error) {
     res.status(500).send(error);
   }
 });
@@ -55,7 +55,7 @@ app.post('/events', cors(), async (req, res) => {
   try {
     const response = await addEvent(req.body);
     res.status(200).send(response);
-  } catch {
+  } catch (error) {
     res.status(500).send(error);
   }
 });
@@ -65,7 +65,7 @@ app.delete('/events/:id', cors(), async (req, res) => {
   try {
     const response = await deleteEvent(req.params.id);
     res.status(200).send(response);
-  } catch {
+  } catch (error) {
     res.status(500).send(error);
   }
 });
