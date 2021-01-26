@@ -8,14 +8,24 @@ function EventList({ sports }) {
   useEffect(() => {
     if (filter) {
       async function filterEvents() {
-        const response = await fetch(`http://localhost:3001/${filter}`);
+        const response = await fetch(`http://localhost:3001/${filter}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         const filteredEventsData = await response.json();
         setEvents(filteredEventsData);
       }
       filterEvents();
     } else {
       async function getEvents() {
-        const response = await fetch(`http://localhost:3001`);
+        const response = await fetch(`http://localhost:3001/events`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         const allEventsData = await response.json();
         setEvents(allEventsData);
       }
