@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/', async (req, res) => {
+app.get('/events', async (req, res) => {
   try {
     const response = await getEvents();
     res.status(200).send(response);
